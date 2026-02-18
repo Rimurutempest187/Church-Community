@@ -317,3 +317,13 @@ async def report(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
         except Exception:
             continue
+# simple session store (handlers.py)
+from storage import read_json, write_json
+def save_user_quiz(user_id, quiz_id):
+    s = read_json("sessions.json", {})
+    s[str(user_id)] = {"quiz_id": quiz_id}
+    write_json("sessions.json", s)
+
+def load_user_quiz(user_id):
+    s = read_json("sessions.json", {})
+    return s.get(str(user_id), {}).get("quiz_id")
